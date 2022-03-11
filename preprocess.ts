@@ -8,13 +8,20 @@ const process = async () => {
   for (const line of tail) {
     const cols = line.split(",");
     let type = cols[cols.length - 1];
-    const sen = cols.slice(0, cols.length - 1).join(" ");
-    if (sen.toLowerCase().startsWith("can ")) {
+    const sen = cols
+      .slice(0, cols.length - 1)
+      .join(" ")
+      .trim();
+    if (sen.toLowerCase().match("can you")) {
       type = "command";
     }
-    file2.push(
-      `${type.replace(/[\r\n]+/g, "")},${sen.replace(/[\r\n]+/g, "")}`
-    );
+    if (type && sen) {
+      file2.push(
+        `${type.replace(/[\r\n]+/g, "")},${sen
+          .replace(/[\r\n\?\.\!\-\'\"\,]+/g, "")
+          .trim()}`
+      );
+    }
   }
   await fs.writeFile("file2.csv", file2.join("\n"));
 };
