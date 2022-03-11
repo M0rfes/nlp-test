@@ -4,7 +4,7 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(express.bodyParser());
+app.use(express.json());
 
 const comprehend = new AWS.Comprehend({
   region: process.env.AWS_REGION,
@@ -34,4 +34,8 @@ app.post("/", async (req, res) => {
     .promise();
 
   return res.json({ entities, classification });
+});
+
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`Listening on port ${process.env.PORT || 3000}`);
 });

@@ -15,5 +15,8 @@
     "express": "^4.17.3",
     "ts-node": "^10.7.0"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "description": ""
 }
