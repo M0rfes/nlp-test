@@ -16,7 +16,17 @@ const comprehend = new AWS.Comprehend({
 app.post("/", async (req, res) => {
   const { text, test = false } = req.body;
   if (test) {
-    return res.json({ text });
+    return res.json({
+      text,
+      config: {
+        region: process.env.AWS_REGION,
+        EndpointArn: process.env.ENDPOINT_ARN,
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        },
+      },
+    });
   }
   const entities = await comprehend
     .detectEntities({
