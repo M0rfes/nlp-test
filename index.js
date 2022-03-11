@@ -16,7 +16,7 @@ const comprehend = new AWS.Comprehend({
 app.post("/", async (req, res) => {
   const { text, test = false } = req.body;
   if (test) {
-    return res.json({ test });
+    return res.json({ text });
   }
   const entities = await comprehend
     .detectEntities({
@@ -27,8 +27,7 @@ app.post("/", async (req, res) => {
 
   const classification = await comprehend
     .classifyDocument({
-      EndpointArn:
-        "arn:aws:comprehend:ap-south-1:238750554722:document-classifier-endpoint/test" /* required */,
+      EndpointArn: process.env.ENDPOINT_ARN /* required */,
       Text: text,
     })
     .promise();
